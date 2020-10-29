@@ -6,10 +6,16 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,16 +25,16 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.Popup;
 import javax.swing.PopupFactory;
+
 import normalizacao.dados.Normalizacao;
 
-
 /**
-* GUI class for present the normalization results.
-* 
-* 
-* @author Vilmar Santos Nepomuceno
-* @version 1.0
-*/
+ * GUI class for present the normalization results.
+ * 
+ * 
+ * @author Vilmar Santos Nepomuceno
+ * @version 1.0
+ */
 public class NormalizacaoPanel extends JPanel {
 	private Dimension screencSize = Toolkit.getDefaultToolkit().getScreenSize();
 	private FramePrincipal framePrincipalGUI;
@@ -65,12 +71,17 @@ public class NormalizacaoPanel extends JPanel {
 	private JButton jButton4;
 	private JButton jButton5;
 	private JLabel jLabel1;
+	private JLabel picLabel;
 	private JScrollPane jScrollPane1;
 	private JTextField sizeAlternatives;
 
+	private BufferedImage image;
+
 	private void initComponents() {
+
 		this.PanelConfig = new JPanel();
 		this.jLabel1 = new JLabel();
+		this.picLabel = new JLabel();
 		this.sizeAlternatives = new JTextField();
 		this.jButton1 = new JButton();
 		this.jButton2 = new JButton();
@@ -84,6 +95,14 @@ public class NormalizacaoPanel extends JPanel {
 		setMaximumSize(new Dimension(1400, 2000));
 
 		this.PanelConfig.setBorder(BorderFactory.createEtchedBorder());
+		
+		try {
+			File f = new File("./img/LOGO-DEPLog.png");
+			image = ImageIO.read(f);		
+			this.picLabel = new JLabel(new ImageIcon(image));
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 
 		this.jLabel1.setFont(new Font("Verdana", 1, 14));
 		this.jLabel1.setText("Number of Alternatives:");
@@ -135,6 +154,7 @@ public class NormalizacaoPanel extends JPanel {
 		this.PanelConfig.setLayout(PanelConfigLayout);
 		PanelConfigLayout.setHorizontalGroup(PanelConfigLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(PanelConfigLayout.createSequentialGroup().addContainerGap()
+						.addComponent(this.picLabel, -2, 215, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(this.jLabel1, -2, 198, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(this.sizeAlternatives, -2, 57, -2)
 						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.jButton1)
@@ -149,10 +169,14 @@ public class NormalizacaoPanel extends JPanel {
 						.createParallelGroup(GroupLayout.Alignment.TRAILING)
 						.addGroup(GroupLayout.Alignment.LEADING,
 								PanelConfigLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-										.addComponent(this.sizeAlternatives, -1, 32, 32767).addComponent(this.jButton1)
-										.addComponent(this.jButton2).addComponent(this.jButton3)
-										.addComponent(this.jButton4).addComponent(this.jButton5))
-						.addComponent(this.jLabel1, GroupLayout.Alignment.LEADING, -2, 32, -2))
+										.addComponent(this.sizeAlternatives, -1, 32, 32767)
+										.addComponent(this.jButton1)
+										.addComponent(this.jButton2)
+										.addComponent(this.jButton3)
+										.addComponent(this.jButton4)
+										.addComponent(this.jButton5)
+										.addComponent(this.jLabel1))
+						.addComponent(this.picLabel, GroupLayout.Alignment.LEADING, -2, 96, -2))
 						.addContainerGap(21, 32767)));
 
 		this.PanelAlternatives.setBorder(BorderFactory.createEtchedBorder());
